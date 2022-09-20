@@ -44,7 +44,7 @@ public class Solution
         var l1_string = ConvertListNodeToNumericString(l1, new StringBuilder());
         var l2_string = ConvertListNodeToNumericString(l2, new StringBuilder());
 
-        Console.WriteLine($"l1_string: {l1_string}, l2_string: {l2_string}");
+        Console.WriteLine($"l1_string: {l1_string.Reverse()}, l2_string: {l2_string.Reverse()}");
 
         var output_int = int.Parse(l1_string) + int.Parse(l2_string);
 
@@ -66,23 +66,12 @@ public class Solution
 
     private string ConvertListNodeToNumericString(ListNode node, StringBuilder sb)
     {
-        if (node.next == null)
-        {
-            sb.Append(node.val);
-            return sb.ToString();
-        }
-
         sb.Append(node.val);
-        sb.Append(ConvertListNodeToNumericString(node.next, sb));
-        return sb.ToString();
 
-        /*         if (node.next != null)
-                {
-                    sb.Append(ConvertListNodeToNumericString(node.next, sb));
-                }
+        if (node.next == null)
+            return sb.ToString();
 
-                sb.Append(node.val);
-                return sb.ToString(); */
+        return ConvertListNodeToNumericString(node.next, sb);
     }
 
 }
