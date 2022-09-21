@@ -20,6 +20,9 @@ class Program
         var thirdSet_L2 = new[] { 9, 9, 9, 9 };
         var resultNode3 = s.AddTwoNumbers(CreateNodeFromArray(thirdSet_L1), CreateNodeFromArray(thirdSet_L2));
 
+        var forthSet_L1 = new[] { 9 };
+        var forthSet_L2 = new[] { 1, 9, 9, 9, 9, 9, 9, 9, 9, 9, };
+        var resultNode4 = s.AddTwoNumbers(CreateNodeFromArray(forthSet_L1), CreateNodeFromArray(forthSet_L2));
 
     }
 
@@ -44,13 +47,20 @@ public class Solution
         var l1_string = ConvertListNodeToNumericString(l1, new StringBuilder());
         var l2_string = ConvertListNodeToNumericString(l2, new StringBuilder());
 
-        Console.WriteLine($"l1_string: {l1_string.Reverse()}, l2_string: {l2_string.Reverse()}");
+        var l1_charArr = l1_string.ToCharArray();
+        Array.Reverse(l1_charArr);
+        var l2_charArr = l2_string.ToCharArray();
+        Array.Reverse(l2_charArr);
 
-        var output_int = int.Parse(l1_string) + int.Parse(l2_string);
+        Console.WriteLine($"l1_string: {new string(l1_charArr)}, l2_string: {new string(l2_charArr)}");
 
-        var output_str = output_int.ToString();
+        var output_int = int.Parse(new string(l1_charArr)) + int.Parse(new string(l2_charArr));
 
-        Console.WriteLine($"l1_string: {l1_string}, l2_string: {l2_string}, output_int: {output_int}, output_str: {output_str}");
+        var output_arr = output_int.ToString().ToCharArray();
+        Array.Reverse(output_arr);
+        var output_str = new string(output_arr);
+
+        Console.WriteLine($"l1_string: {new string(l1_charArr)}, l2_string: {new string(l2_charArr)}, output_int: {output_int}, output_str: {output_str}");
 
         return ConvertOutputSumToListNode(output_str);
     }
