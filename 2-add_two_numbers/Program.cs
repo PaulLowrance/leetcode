@@ -44,46 +44,60 @@ public class Solution
 {
     public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
     {
-        var l1_string = ConvertListNodeToNumericString(l1, new StringBuilder());
-        var l2_string = ConvertListNodeToNumericString(l2, new StringBuilder());
 
-        var l1_charArr = l1_string.ToCharArray();
-        Array.Reverse(l1_charArr);
-        var l2_charArr = l2_string.ToCharArray();
-        Array.Reverse(l2_charArr);
+        ListNode head = null;
+        ListNode temp = null;
 
-        Console.WriteLine($"l1_string: {new string(l1_charArr)}, l2_string: {new string(l2_charArr)}");
-
-        var output_int = int.Parse(new string(l1_charArr)) + int.Parse(new string(l2_charArr));
-
-        var output_arr = output_int.ToString().ToCharArray();
-        Array.Reverse(output_arr);
-        var output_str = new string(output_arr);
-
-        Console.WriteLine($"l1_string: {new string(l1_charArr)}, l2_string: {new string(l2_charArr)}, output_int: {output_int}, output_str: {output_str}");
-
-        return ConvertOutputSumToListNode(output_str);
-    }
-
-    private ListNode ConvertOutputSumToListNode(string output_str)
-    {
-        if (output_str.Length == 1)
+        int carry = 0;
+        // Finding the base case where we have reached the end of the list
+        while (l1 != null || l2 != null)
         {
-            return new ListNode(int.Parse(output_str[0].ToString()), null);
+            //se the sum to what we are carrying out of the previous loop
+            var sum = carry;
+
+            //the dual ifs here account for lists of different size
+            if (l1 != null)
+            {
+                //add the value and move to the next
+                sum += l1.val;
+                l1 = l1.next;
+            }
+
+            //same stuff but for l2
+            if (l2 != null)
+            {
+                sum += l2.val;
+                l2 = l2.next;
+            }
+
+            //create our new node and add the mod
+            var node = new ListNode(sum % 10);
+
+            // carry over the result of integer division
+            carry = sum / 10;
+
+            //swap the nodes to move to the next set and process the next "level"
+            if (temp == null)
+            {
+                temp = node;
+                head = node;
+            }
+            else
+            {
+                temp.next = node;
+                temp = temp.next;
+            }
         }
-        return new ListNode(int.Parse(output_str[0].ToString()), ConvertOutputSumToListNode(output_str.Remove(0, 1)));
+
+        //if there is a carry then do it again
+        if (carry > 0)
+        {
+            temp.next = new ListNode(carry);
+        }
+
+        return head;
+
     }
-
-    private string ConvertListNodeToNumericString(ListNode node, StringBuilder sb)
-    {
-        sb.Append(node.val);
-
-        if (node.next == null)
-            return sb.ToString();
-
-        return ConvertListNodeToNumericString(node.next, sb);
-    }
-
 }
 
 public class ListNode
