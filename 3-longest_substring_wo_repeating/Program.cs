@@ -75,15 +75,17 @@ public class Solution
                 if (tmpArrCount > longestSubstring)
                     longestSubstring = tmpArrCount;
 
-                var tmpArrStart = tmpArr.IndexOf(arr[i]) >= 0 ? tmpArr.IndexOf(arr[i]) : 0;
+                var tmpArrStart = tmpArr.LastIndexOf(arr[i]) >= 0 ? tmpArr.IndexOf(arr[i]) : 0;
 
-                //              Console.WriteLine($"Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
+                Console.WriteLine($"Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
 
                 tmpArr = tmpArr.GetRange(tmpArrStart, tmpArr.Count() - 1);
+
+                Console.WriteLine($"Modified Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
             }
             else
             {
-                //             Console.WriteLine($"tmpArr Added: {arr[i]}...");
+                Console.WriteLine($"tmpArr Added: {arr[i]}...");
                 tmpArr.Add(arr[i]);
 
                 if (tmpArr.Count() > longestSubstring)
