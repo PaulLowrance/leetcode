@@ -56,41 +56,50 @@ public class Solution
     {
         var arr = s.ToCharArray();
         var tmpArr = new List<char>();
+        var charSeen = new Dictionary<char, int>();
 
         var longestSubstring = 0;
+        var subStrStartIdx = 0;
 
         for (var i = 0; i < arr.Length; ++i)
         {
             //            Console.WriteLine($"Processing [idx]: {arr[i]}[{i}]...");
 
-            if (longestSubstring < 1)
-                longestSubstring = 1;
-
-            if (tmpArr.Any(c => c == arr[i]))
+            if (charSeen.ContainsKey(arr[i]))
             {
-                //               Console.WriteLine($"tmpArray string: {new string(tmpArr.ToArray())}");
-
-                var tmpArrCount = tmpArr.Count();
-
-                if (tmpArrCount > longestSubstring)
-                    longestSubstring = tmpArrCount;
-
-                var tmpArrStart = tmpArr.LastIndexOf(arr[i]) >= 0 ? tmpArr.IndexOf(arr[i]) : 0;
-
-                Console.WriteLine($"Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
-
-                tmpArr = tmpArr.GetRange(tmpArrStart, tmpArr.Count() - 1);
-
-                Console.WriteLine($"Modified Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
+                subStrStartIdx = Math.Max(subStrStartIdx, charSeen[arr[i]] + 1);
             }
-            else
-            {
-                Console.WriteLine($"tmpArr Added: {arr[i]}...");
-                tmpArr.Add(arr[i]);
 
-                if (tmpArr.Count() > longestSubstring)
-                    longestSubstring = tmpArr.Count();
-            }
+            charSeen[arr[i]] = i;
+            longestSubstring = Math.Max(longestSubstring, i - subStrStartIdx + 1);
+
+            /*             if (longestSubstring < 1)
+                            longestSubstring = 1;
+
+                        if (tmpArr.Any(c => c == arr[i]))
+                        {
+                            //               Console.WriteLine($"tmpArray string: {new string(tmpArr.ToArray())}");
+                            var tmpArrCount = tmpArr.Count();
+
+                            if (tmpArrCount > longestSubstring)
+                                longestSubstring = tmpArrCount;
+
+                            var tmpArrStart = tmpArr.LastIndexOf(arr[i]) >= 0 ? tmpArr.IndexOf(arr[i]) : 0;
+
+                            Console.WriteLine($"Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
+
+                            tmpArr = tmpArr.GetRange(tmpArrStart, tmpArr.Count() - 1);
+
+                            Console.WriteLine($"Modified Array: {new string(tmpArr.ToArray())} - start idx: {tmpArrStart}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"tmpArr Added: {arr[i]}...");
+                            tmpArr.Add(arr[i]);
+
+                            if (tmpArr.Count() > longestSubstring)
+                                longestSubstring = tmpArr.Count();
+                        } */
         }
 
         return longestSubstring;
